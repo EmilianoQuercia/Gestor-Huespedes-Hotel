@@ -6,7 +6,7 @@ function App() {
 
 
   return (
-    <div >
+    <div className="container mx-auto mt-10" >
       <ContainerRoutes/>
     </div>
   )
