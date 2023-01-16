@@ -1,3 +1,5 @@
+
+import { GlobalContextProvider } from "./context/GlobalContext"
 import ContainerRoutes from "./routes/container.routes"
 
 
@@ -7,7 +9,9 @@ function App() {
 
   return (
     <div className="container mx-auto mt-10" >
-      <ContainerRoutes/>
+      <GlobalContextProvider>
+        <ContainerRoutes/>
+      </GlobalContextProvider>
     </div>
   )
 }

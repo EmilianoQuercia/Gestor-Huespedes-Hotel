@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { GlobalContext } from '../context/GlobalContext';
+
 
 const Formulario = () => {
+
+  const {huespedes, setHuespedes, huesped, setHuesped} = useContext(GlobalContext)
+
     const [nombre, setNombre] = useState('')
     const [habitacion, setHabitacion] = useState('')
     const [cantHuespedes, setCantHuespedes] = useState('')
@@ -9,6 +14,31 @@ const Formulario = () => {
     const [checkout, setCheckout] = useState('')
     const [vehiculo, setVehiculo] = useState('')
     const [observaciones, setObservaciones] = useState('')
+
+    // En el useEffect paso el objeto a modificar
+    useEffect(()=>{
+        if(Object.keys(huesped).length >0){
+            setNombre(huesped.nombre)
+            setHabitacion(huesped.habitacion)
+            setCantHuespedes(huesped.cantHuespedes)
+            if (huesped.pension === 'MAP'){
+                document.getElementById('map').selected = true
+            }else if (huesped.pension === 'pc'){
+                document.getElementById('pc').selected = true
+            }
+            setPension(huesped.pension)
+            setCheckin(huesped.checkin)
+            setCheckout(huesped.checkout)
+            setVehiculo(huesped.vehiculo)
+            setObservaciones(huesped.observaciones)
+        }
+    },[huesped])
+
+    const generarId = () =>{
+        const random = Math.random().toString(36).substring(2)
+        const fecha = Date.now().toString(36)
+        return random + fecha
+    }
 
    
   
@@ -26,7 +56,31 @@ const Formulario = () => {
             vehiculo,
             observaciones
         }
-        console.log(objetoHuesped)
+        
+       
+
+
+        //vamos a chequear si es un nuevo registro o si es una edicion
+        if (huesped.id) {
+            //editando el registro
+            objetoHuesped.id = huesped.id
+            const huespedActualizado = huespedes.map(huespedState =>
+                huespedState.id === huesped.id ? objetoHuesped : huespedState)
+            setHuespedes(huespedActualizado)
+            setHuesped({})
+        } else {
+            //Nuevo registro
+            //checkeo que el numero de habitacion no se repita
+            const numHabitacion = huespedes.find(h=>h.habitacion === objetoHuesped.habitacion)
+            if (numHabitacion) {
+                alert(`La habitacion ${objetoHuesped.habitacion} ya esta ocupada`)
+                return
+            }
+            objetoHuesped.id = generarId()
+            setHuespedes([...huespedes, objetoHuesped])
+        }
+
+
        
         //Reiniciar Formulario
         setNombre('')
@@ -37,7 +91,7 @@ const Formulario = () => {
         setCheckout('')
         setVehiculo('')
         setObservaciones('')
-        document.getElementById('select').selected = true
+        document.getElementById('desayuno').selected = true
     }
 
     return (
@@ -91,9 +145,9 @@ const Formulario = () => {
                     >Tipo de Pension
                     </label>
                     <select   onChange={(e)=>{setPension(e.target.value)}} className=' bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' >
-                        <option value={'desayuno'} id='select' >Desayuno</option>
-                        <option value={'MAP'} >MAP (Desayuno Y Cena)</option>
-                        <option value={'pc'} >Pension Completa</option>
+                        <option value={'desayuno'} id='desayuno' >Desayuno</option>
+                        <option value={'MAP'} id='map' >MAP (Desayuno Y Cena)</option>
+                        <option value={'pc'} id= 'pc'>Pension Completa</option>
                     </select>
                 </div>
             
@@ -145,7 +199,7 @@ const Formulario = () => {
                 </div>
                 <input className=' bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-all' 
                     type="submit" name="" 
-                    value={'Agregar Huesped'} />
+                    value={huesped.id ? 'Editar Huesped' : 'Agregar Huesped'} />
 
             </form>
         </div>
