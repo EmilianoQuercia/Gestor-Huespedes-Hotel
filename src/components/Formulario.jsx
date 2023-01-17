@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
 
+let totalDesayuno = 0
 
 const Formulario = () => {
 
@@ -76,6 +77,13 @@ const Formulario = () => {
                 alert(`La habitacion ${objetoHuesped.habitacion} ya esta ocupada`)
                 return
             }
+            // const planDesayuno = huespedes.find(h=>h.pension === 'desayuno')
+            // console.log(planDesayuno)
+            // if (planDesayuno === undefined) {
+            //       totalDesayuno += Number(objetoHuesped.cantHuespedes)
+            //       console.log(totalDesayuno)
+
+            // }
             objetoHuesped.id = generarId()
             setHuespedes([...huespedes, objetoHuesped])
         }
