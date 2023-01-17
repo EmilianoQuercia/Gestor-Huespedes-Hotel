@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { GlobalContext } from '../context/GlobalContext';
+import dayjs, { isDayjs } from 'dayjs'
 
 let totalDesayuno = 0
 
@@ -10,11 +11,13 @@ const Formulario = () => {
     const [nombre, setNombre] = useState('')
     const [habitacion, setHabitacion] = useState('')
     const [cantHuespedes, setCantHuespedes] = useState('')
-    const [pension, setPension] = useState('desayuno')
+    const [pension, setPension] = useState('DESAYUNO')
     const [checkin, setCheckin] = useState('')
     const [checkout, setCheckout] = useState('')
     const [vehiculo, setVehiculo] = useState('')
     const [observaciones, setObservaciones] = useState('')
+
+   
 
     // En el useEffect paso el objeto a modificar
     useEffect(()=>{
@@ -24,7 +27,7 @@ const Formulario = () => {
             setCantHuespedes(huesped.cantHuespedes)
             if (huesped.pension === 'MAP'){
                 document.getElementById('map').selected = true
-            }else if (huesped.pension === 'pc'){
+            }else if (huesped.pension === 'PENSION COMPLETA'){
                 document.getElementById('pc').selected = true
             }
             setPension(huesped.pension)
@@ -77,13 +80,6 @@ const Formulario = () => {
                 alert(`La habitacion ${objetoHuesped.habitacion} ya esta ocupada`)
                 return
             }
-            // const planDesayuno = huespedes.find(h=>h.pension === 'desayuno')
-            // console.log(planDesayuno)
-            // if (planDesayuno === undefined) {
-            //       totalDesayuno += Number(objetoHuesped.cantHuespedes)
-            //       console.log(totalDesayuno)
-
-            // }
             objetoHuesped.id = generarId()
             setHuespedes([...huespedes, objetoHuesped])
         }
@@ -94,7 +90,7 @@ const Formulario = () => {
         setNombre('')
         setHabitacion('')
         setCantHuespedes('')
-        setPension('desayuno')
+        setPension('DESAYUNO')
         setCheckin('')
         setCheckout('')
         setVehiculo('')
@@ -116,11 +112,11 @@ const Formulario = () => {
                         className='block uppercase font-bold text-gray-600'
                     >Nombre Titular Reserva
                     </label>
-                    <input  className=' bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
+                    <input  className=' uppercase bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
                         type="text" id='nombre'
                         placeholder='Nombre del huesped'
                         value={nombre}
-                        onChange={(e)=>setNombre(e.target.value)}
+                        onChange={(e)=>setNombre((e.target.value).toUpperCase())}
                         required />
                 </div>
                 <div className='mb-3'>
@@ -130,7 +126,7 @@ const Formulario = () => {
                     </label>
                     <input  className=' bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
                         type="number" id='habitacion'
-                        placeholder='Numero de habitación'
+                        placeholder='NUMERO DE HABITACION'
                         value={habitacion}
                         onChange={(e)=>setHabitacion(e.target.value)} 
                         required/>
@@ -142,7 +138,7 @@ const Formulario = () => {
                     </label>
                     <input  className=' bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
                         type="number" id='CantidadH'
-                        placeholder='Cantidad de Huespedes'
+                        placeholder='CANTIDAD DE HUESPEDES'
                         value={cantHuespedes}
                         onChange={(e)=>setCantHuespedes(e.target.value)} 
                         required/>
@@ -152,10 +148,10 @@ const Formulario = () => {
                         className='block uppercase font-bold text-gray-600'
                     >Tipo de Pension
                     </label>
-                    <select   onChange={(e)=>{setPension(e.target.value)}} className=' bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' >
-                        <option value={'desayuno'} id='desayuno' >Desayuno</option>
+                    <select   onChange={(e)=>{setPension(e.target.value)}} className=' uppercase bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' >
+                        <option value={'DESAYUNO'} id='desayuno' >Desayuno</option>
                         <option value={'MAP'} id='map' >MAP (Desayuno Y Cena)</option>
-                        <option value={'pc'} id= 'pc'>Pension Completa</option>
+                        <option value={'PENSION COMPLETA'} id= 'pc'>Pension Completa</option>
                     </select>
                 </div>
             
@@ -165,10 +161,12 @@ const Formulario = () => {
                     >Check IN
                     </label>
                     <input  className=' bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
-                        type="date"
+                        type='date'
                         value={checkin}
                         onChange={(e)=>setCheckin(e.target.value)} 
                         required
+                        
+                     
                         />
                 </div>
                 <div className='mb-3'>
@@ -188,22 +186,22 @@ const Formulario = () => {
                         className='block uppercase font-bold text-gray-600'
                     >Vehiculo y Patente
                     </label>
-                    <input  className=' bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
+                    <input  className=' uppercase bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
                         type="text" id='vehiculo'
                         placeholder='Ingrese Marca y Patente'
                         value={vehiculo}
-                        onChange={(e)=>setVehiculo(e.target.value)} />
+                        onChange={(e)=>setVehiculo((e.target.value).toUpperCase())} />
                 </div>
                 <div className='mb-3'>
                     <label htmlFor="observaciones"
                         className='block uppercase font-bold text-gray-600'
                     >Observaciones
                     </label>
-                    <textarea  className=' bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
+                    <textarea  className=' uppercase bg-slate-100 border-2 w-full p-1 mt-1 placeholder-gray-600 rounded-md' 
                         type="text" id='observaciones'
                         placeholder='Ingrese alguna observación'
                         value={observaciones}
-                        onChange={(e)=>setObservaciones(e.target.value)} />
+                        onChange={(e)=>setObservaciones((e.target.value).toUpperCase())} />
                 </div>
                 <input className=' bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-all' 
                     type="submit" name="" 

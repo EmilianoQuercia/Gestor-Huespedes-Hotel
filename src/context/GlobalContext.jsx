@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 const GlobalContext = createContext() 
 
@@ -9,6 +9,17 @@ const GlobalContextProvider = (props) => {
 
     const [huespedes, setHuespedes]=useState([])
     const [huesped, setHuesped] = useState({})
+    
+    const huespedesLS = JSON.parse(localStorage.getItem('huespedesHotel'));
+    useEffect(() => {
+        setHuespedes(huespedesLS)
+      }, []);
+    
+      useEffect(() => {
+        localStorage.setItem('huespedesHotel', JSON.stringify(huespedes))
+      }, [huespedes]);
+    
+
 
     const eliminarHuesped = (id) =>{
         const huespedActualizados = huespedes.filter(huesped => huesped.id !== id)
@@ -16,31 +27,28 @@ const GlobalContextProvider = (props) => {
       }
 
      
-    // const HuespedesCantidadTotal = huespedes.reduce((acc, h)=> acc + Number(h.cantHuespedes), 0)
-    // console.log('TOTAL:', HuespedesCantidadTotal)
     const cantidadServicios = huespedes.map((h)=>{
-        if (h.pension === 'desayuno'){
+        if (h.pension === 'DESAYUNO'){
               const HuespedesCantidadTotal = huespedes.reduce((acc, h)=> acc + Number(h.cantHuespedes), 0)
-                console.log('TOTAL:', HuespedesCantidadTotal)
+              
                 cantD = HuespedesCantidadTotal
     
         }
         if (h.pension === 'MAP'){
             const HuespedesCantidadTotal = huespedes.reduce((acc, h)=> acc + Number(h.cantHuespedes), 0)
-                console.log('TOTAL:', HuespedesCantidadTotal)
+               
                 cantD = HuespedesCantidadTotal
                 cantC += Number(h.cantHuespedes)
         }
-        if (h.pension === 'pc'){
+        if (h.pension === 'PENSION COMPLETA'){
             const HuespedesCantidadTotal = huespedes.reduce((acc, h)=> acc + Number(h.cantHuespedes), 0)
-                console.log('TOTAL:', HuespedesCantidadTotal)
+                
                 cantD = HuespedesCantidadTotal
                 cantC += Number(h.cantHuespedes)
                 cantA += Number(h.cantHuespedes)
         }
     })
     
-    console.log('Desayunos:',cantD , 'Almuerzos', cantA, 'cenas', cantC)
 
     return (
         <GlobalContext.Provider value={{huespedes, setHuespedes, huesped, setHuesped, eliminarHuesped, cantA, cantD, cantC}}>
