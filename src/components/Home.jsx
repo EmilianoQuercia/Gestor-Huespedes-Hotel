@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CantidadHabitaciones from './CantidadHabitaciones';
 import CantidadServicios from './CantidadServicios';
 import Formulario from './Formulario';
 import Header from './Header';
@@ -9,8 +10,11 @@ const Home = () => {
     return (
         <div>
             <Header/>
+            <div className='flex justify-between'>
+            <CantidadHabitaciones/>
             <CantidadServicios/>
-            <div className="mt-5 md:flex">
+            </div>
+            <div className="mt-2 md:flex">
                 <Formulario/>
                 <ListadoHuespedes />   
             </div>

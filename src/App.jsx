@@ -8,7 +8,7 @@ function App() {
 
 
   return (
-    <div className="container mx-auto mt-10" >
+    <div className="container mx-auto mt-4" >
       <GlobalContextProvider>
         <ContainerRoutes/>
       </GlobalContextProvider>

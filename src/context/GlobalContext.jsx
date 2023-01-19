@@ -9,6 +9,21 @@ const GlobalContextProvider = (props) => {
 
     const [huespedes, setHuespedes]=useState([])
     const [huesped, setHuesped] = useState({})
+
+    const [inicio, setInicio]=useState(true)
+    const [nombreHotel, setNombreHotel] = useState('')
+    const [totalHabitaciones, setTotalHabitaciones]=useState('')
+
+    const nombreHotelLS = JSON.parse(localStorage.getItem('nombreHotel')); 
+    const totalHabitacionesLS = JSON.parse(localStorage.getItem('totalHabitaciones')); 
+    useEffect(()=>{
+      
+      if (nombreHotelLS){
+          setNombreHotel(nombreHotelLS);
+          setTotalHabitaciones(totalHabitacionesLS);
+          setInicio(false)
+      }
+    },[])
     
     const huespedesLS = JSON.parse(localStorage.getItem('huespedesHotel'));
     useEffect(() => {
@@ -51,7 +66,10 @@ const GlobalContextProvider = (props) => {
     
 
     return (
-        <GlobalContext.Provider value={{huespedes, setHuespedes, huesped, setHuesped, eliminarHuesped, cantA, cantD, cantC}}>
+        <GlobalContext.Provider value={{huespedes, setHuespedes,
+         huesped, setHuesped, eliminarHuesped,
+          cantA, cantD, cantC,
+          inicio,setInicio, nombreHotel, setNombreHotel, totalHabitaciones, setTotalHabitaciones}}>
             {props.children}
         </GlobalContext.Provider>
     );
