@@ -25,7 +25,7 @@ const CantidadHabitaciones = () => {
             <div className='text-center bg-lime-700 font-black text-white'>{habLibres}</div>
         </div>
         <div className='m-2'>
-            <div className='font-bold text-center'>CheckOut Hoy</div>
+            <div className='font-bold text-center text-red-600 ' >CheckOut Hoy</div>
             <div className='text-center bg-red-600 font-black text-white'>{checkout}</div>
         </div>
         
